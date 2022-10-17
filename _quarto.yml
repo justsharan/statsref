@@ -1,0 +1,19 @@
+project:
+  type: book
+
+book:
+  title: "Statistics Reference"
+  author: "Sharan S."
+  date: "10/13/2022"
+  chapters:
+    - index.qmd
+    - two-sample-t.qmd
+    - analysis-of-variance.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt

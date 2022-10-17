@@ -1,0 +1,74 @@
+# Two-sample t-test
+
+This is a test used to analyze the difference between the means of two treatments/groups where the samples are not paired. The two treatments are applied to separate, independent samples.
+
+Here is an example of how to conduct a two-sample t-test using a dataset on the body temperatures of active and inactive beavers.
+
+```{r, include=FALSE}
+library(tidyverse)
+beaver <- read_csv('datasets/beaver.csv')
+```
+
+## Hypotheses
+
+We can state the hypotheses for the test as follows:
+
+* $H_0$: There is no difference between the mean body temperature of active and inactive beavers.
+* $H_A$: The mean body temperature of active beavers is greater than that of inactive beavers.
+
+We can let $\mu_1$ represent the mean body temperature of active beavers and $\mu_2$ represent the mean body temperature of inactive beavers, and rewrite our hypotheses in symbolic format:
+
+* $H_0: \mu_1 - \mu_2 = 0$
+* $H_A: \mu_1 - \mu_2 > 0$
+
+## Checking assumptions
+
+The first two assumptions of this test are the same as the two-sample t-test. The additional assumption is listed below.
+
+* Both samples represent random samples obtained from their populations.
+* The variable in question is normally distributed in each population.
+* The variance of the variable is the same in each population.
+
+For our purposes, the normality assumption can be verified using a normal quantile plot:
+
+```{r}
+#| fig-align: center
+beaver %>%
+  ggplot(aes(sample=temp)) +
+  stat_qq(shape = 1) +
+  stat_qq_line() +
+  facet_grid(~ activ) +
+  xlab('Normal quantile') +
+  ylab('Body temperature (°C)')
+```
+
+From the qq plot above, both groups seem to be drawn from normal populations. Next, we can also check the equal-variance assumption using the F-test:
+
+```{r}
+var.test(temp ~ activ, data = beaver)
+```
+
+Since the P-value for the F-test is greater than 0.05, we fail to reject the null hypothesis of equal variance. While this isn't related to checking assumptions, we could also visualize our data using a boxplot.
+
+```{r}
+#| fig-align: center
+beaver %>%
+  ggplot(aes(x = activ, y = temp)) +
+  geom_boxplot(width = 0.1) +
+  xlab('Activity') +
+  ylab('Body temperature (°C)')
+```
+
+It seems likely that active beavers have a higher mean body temperature than inactive beavers, but we can verify this using the two-sample t-test.
+
+## Performing a two-sample t-test
+
+We can use the built-in `t.test` method in R to perform this test. If you need help using this command, you can use `?t.test` to view the [documentation](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) for this command.
+
+```{r}
+t.test(temp ~ activ, data = beaver,
+  paired = FALSE, var.equal = TRUE, alternative = 'greater',
+  conf.level = 0.95)
+```
+
+Since the test produced a P-value less than 0.05 ($\alpha$), we can reject the null hypothesis.
