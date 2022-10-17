@@ -23,6 +23,7 @@ anorexia <- anorexia %>%
 A typical way to visualize the differences for a paired t-test is using a plot like this. Note that we will have to pivot the data to long format.
 
 ```{r}
+#| fig-align: center
 anorexia %>%
   ggplot(aes(x = time, y = weight)) +
   geom_point(shape = 1) +
