@@ -51,7 +51,7 @@ The assumptions for conducting a paired t-test are as follows:
 * The individuals are randomly sampled from the population.
 * The differences are normally distributed in the population.
 
-The normality assumption can be checked by conducting a Shapiro-Wilk normality test, which checks the null hypothesis that the data are sampled from a normal distribution:
+Since the sample size is so small, a normal quantile plot may not be as helpful in evaluating the normality of the data. Alternatively, it can be verified by conducting a Shapiro-Wilk normality test, which checks the null hypothesis that the data are sampled from a normal distribution:
 
 ```{r}
 shapiro.test(anorexia$diff)
