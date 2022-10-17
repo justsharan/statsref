@@ -10,6 +10,7 @@ book:
     - paired-t.qmd
     - two-sample-t.qmd
     - analysis-of-variance.qmd
+  page-navigation: false
 
 bibliography: references.bib
 

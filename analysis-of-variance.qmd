@@ -10,16 +10,7 @@ library(tidyverse)
 palmerpenguins <- read_csv('datasets/palmerpenguins.csv') 
 ```
 
-## Hypotheses
-
-The null hypothesis for an ANOVA test is that the population means, $\mu_i$, are the same for all treatments. The alternate hypothesis is that at least one population mean is different from the rest. ANOVA cannot give us information about _which_ group's population mean is different from the rest.
-
-* $H_0$: Mean flipper length is equal among all three species ($\mu_1 = \mu_2 = \mu_3$).
-* $H_A$: At least one species' mean flipper length is different from the rest.
-
-We'll be conducting a fixed-effects ANOVA test, which uses the F-test statistic.
-
-## Visualizing the data
+## Visualizing data
 
 Since we have large sample sizes, it would be helpful to visualize the data with a violin plot (or a boxplot would work too).
 
@@ -33,6 +24,15 @@ palmerpenguins %>%
   xlab('Species') +
   ylab('Flipper length (mm)')
 ```
+
+## Hypotheses
+
+The null hypothesis for an ANOVA test is that the population means, $\mu_i$, are the same for all treatments. The alternate hypothesis is that at least one population mean is different from the rest. ANOVA cannot give us information about _which_ group's population mean is different from the rest.
+
+* $H_0$: Mean flipper length is equal among all three species ($\mu_1 = \mu_2 = \mu_3$).
+* $H_A$: At least one species' mean flipper length is different from the rest.
+
+We'll be conducting a fixed-effects ANOVA test, which uses the F-test statistic.
 
 ## Checking assumptions
 

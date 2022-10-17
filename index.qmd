@@ -1,5 +1,11 @@
 # Preface {.unnumbered}
 
-This is a Quarto book.
+This is just a thing I'm working on where I'm writing out how to do some statistics stuff, how to present the relevant data for each test, etc. Expect more to be added in the future.
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+Currently, all the demonstrations use R and tidyverse code (not base R), and most of the information comes from things I learned in my university biostatistics course, with some other information being pulled from other online materials I've used in the past or MOOCs I've taken.
+
+The organization and structure of this may look crazy now, but I'm just working on flushing out all the information at the moment. It will (hopefully) be reworked in the future made more accessible.
+
+All of the datasets used in this site are available for download at the URL, `https://justsharan.xyz/stats/datasets/*`.
+
+For example, the `anorexia` data used for the paired t-test example is available at [https://justsharan.xyz/stats/datasets/anorexia.csv](https://justsharan.xyz/stats/datasets/anorexia.csv).
