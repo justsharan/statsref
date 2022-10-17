@@ -1,0 +1,70 @@
+# Paired t-test
+
+This is a test used to analyze the difference between the means of two treatments/groups where the samples are paired. The two treatments are applied to separate, independent samples.
+
+We have a dataset with the weights of 17 girls before and after treatment for anorexia. Since the same individuals were measured twice, we can use a paired t-test to see if the treatment worked.
+
+```{r}
+#| include: FALSE
+library(tidyverse)
+anorexia <- read_csv('datasets/anorexia.csv')
+```
+
+Before we start, we can store the differences in each pair as another variable and tidy the data, converting to long format. I'm also storing the row numbers as a column so that we know which before row corresponds to which after row.
+
+```{r}
+anorexia <- anorexia %>%
+  mutate(diff = Post - Prior, id = row_number()) %>%
+  pivot_longer(c('Prior', 'Post'), names_to = 'time', values_to = 'weight')
+```
+
+## Visualizing data
+
+A typical way to visualize the differences for a paired t-test is using a plot like this. Note that we will have to pivot the data to long format.
+
+```{r}
+anorexia %>%
+  ggplot(aes(x = time, y = weight)) +
+  geom_point(shape = 1) +
+  geom_line(aes(group = id), color = 'grey') +
+  xlab('Time') +
+  ylab('Weight (lbs)')
+```
+
+## Hypotheses
+
+The hypothesis of a paired t-test is all about the mean of the difference in the pairs, $\mu_d$:
+
+* $H_0$: The mean change in weight after anorexia treatment was 0.
+* $H_A$: The mean change in weight after anorexia treatment was not 0.
+
+Or symbolically, it can be represented as:
+
+* $H_0: \mu_d = 0$
+* $H_A: \mu_d \neq 0$
+
+## Checking assumptions
+
+The assumptions for conducting a paired t-test are as follows:
+
+* The individuals are randomly sampled from the population.
+* The differences are normally distributed in the population.
+
+The normality assumption can be checked by conducting a Shapiro-Wilk normality test, which checks the null hypothesis that the data are sampled from a normal distribution:
+
+```{r}
+shapiro.test(anorexia$diff)
+```
+
+Since the P-value is greater than 0.05, we fail to reject the $H_0$ of normality and can proceed with the test.
+
+## Performing a paired t-test
+
+We can use the built-in `t.test` method in R to perform this test. If you need help using this command, you can use `?t.test` to view the [documentation](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/t.test) for this command.
+
+```{r}
+t.test(weight ~ time, data = anorexia,
+  paired = TRUE, conf.level = 0.95)
+```
+
+Since the test produced a P-value less than 0.05 ($\alpha$), we can reject the null hypothesis.

@@ -9,6 +9,21 @@ library(tidyverse)
 beaver <- read_csv('datasets/beaver.csv')
 ```
 
+## Visualizing data
+
+We could visualize our data using a boxplot since we're trying to see the association between a categorical and a numerical value.
+
+```{r}
+#| fig-align: center
+beaver %>%
+  ggplot(aes(x = activ, y = temp)) +
+  geom_boxplot(width = 0.1) +
+  xlab('Activity') +
+  ylab('Body temperature (°C)')
+```
+
+It seems likely that active beavers have a higher mean body temperature than inactive beavers, but we can verify this using the two-sample t-test.
+
 ## Hypotheses
 
 We can state the hypotheses for the test as follows:
@@ -48,18 +63,7 @@ From the qq plot above, both groups seem to be drawn from normal populations. Ne
 var.test(temp ~ activ, data = beaver)
 ```
 
-Since the P-value for the F-test is greater than 0.05, we fail to reject the null hypothesis of equal variance. While this isn't related to checking assumptions, we could also visualize our data using a boxplot.
-
-```{r}
-#| fig-align: center
-beaver %>%
-  ggplot(aes(x = activ, y = temp)) +
-  geom_boxplot(width = 0.1) +
-  xlab('Activity') +
-  ylab('Body temperature (°C)')
-```
-
-It seems likely that active beavers have a higher mean body temperature than inactive beavers, but we can verify this using the two-sample t-test.
+Since the P-value for the F-test is greater than 0.05, we fail to reject the null hypothesis of equal variance.
 
 ## Performing a two-sample t-test
 
