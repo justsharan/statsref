@@ -14,8 +14,6 @@ book:
         - analysis-of-variance.qmd
   page-navigation: false
 
-bibliography: references.bib
-
 format:
   html:
     theme: cosmo
