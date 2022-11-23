@@ -10,12 +10,14 @@ library(tidyverse)
 anorexia <- read_csv('datasets/anorexia.csv')
 ```
 
-Before we start, we can store the differences in each pair as another variable and tidy the data, converting to long format. I'm also storing the row numbers as a column so that we know which before row corresponds to which after row.
+Before we start, we can store the differences in each pair as another variable and tidy the data, converting to long format. I'm also storing the row numbers as a column so that we know which before row corresponds to which after row, and ordering them such that Prior shows up before Post (as opposed to alphabetical order).
 
 ```{r}
 anorexia <- anorexia %>%
   mutate(diff = Post - Prior, id = row_number()) %>%
   pivot_longer(c('Prior', 'Post'), names_to = 'time', values_to = 'weight')
+
+anorexia$time <- ordered(anorexia$time, levels=c('Prior', 'Post'))
 ```
 
 ## Visualizing data
