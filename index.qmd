@@ -1,11 +1,36 @@
 # Preface {.unnumbered}
 
-This is just a thing I'm working on where I'm writing out how to do some statistics stuff, how to present the relevant data for each test, etc. Expect more to be added in the future.
+This a little ebook-esque thing I'm working on which explains how to do some statistics stuff in R, how to present data, etc. Expect more content to be added in the future.
 
-Currently, all the demonstrations use R and tidyverse code (not base R), and most of the information comes from things I learned in my university biostatistics course, with some other information being pulled from other online materials I've used in the past or MOOCs I've taken.
+Currently, all the demonstrations use R and tidyverse code, and most of the information comes from content I learned in my university biostatistics course, with some other information being pulled from other online materials I've used in the past or MOOCs I've taken on my own.
 
-The organization and structure of this may look crazy now, but I'm just working on flushing out all the information at the moment. It will (hopefully) be reworked in the future made more accessible.
+The organization and structure of this site may look a little busy right now, but I'm working on flushing out all the information at the moment, and it will be reworked in the future and made more accessible.
 
-All of the datasets used in this site are available for download at the URL, `https://justsharan.xyz/stats/datasets/*`.
+### Assumptions
 
-For example, the `anorexia` data used for the paired t-test example is available at [https://justsharan.xyz/stats/datasets/anorexia.csv](https://justsharan.xyz/stats/datasets/anorexia.csv).
+This site assumes you have some rudimentary knowledge of R/programming: what variables are, how functions work, etc. All the pages will also assume you have the `tidyverse` package loaded. Any other packages that are used will be specified in the page itself.
+
+If you don't have `tidyverse` installed, you can install it as such:
+
+```r
+install.packages('tidyverse')
+```
+
+Once you have it installed, load it into your workspace by running this command, and you'll see the following output. `tidyverse` loads in all the other packages mentioned there, but most importantly, it includes:
+
+* `ggplot2`, our plotting library of choice
+* `tibble`, a way to represent tabular data in R
+* `dplyr`, which contains utility functions to manipulate data
+
+```{r}
+library(tidyverse)
+```
+
+### Accessing sample data
+
+This website uses tons of different datasets, all of which are available at https://justsharan.xyz/stats/datasets/*. So for example, the `anorexia` data used for the paired t-test page can be loaded in as such:
+
+```{r}
+anorexia <- read_csv('https://justsharan.xyz/stats/datasets/anorexia.csv')
+head(anorexia) # just for demonstration purposes
+```

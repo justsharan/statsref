@@ -22,7 +22,7 @@ anorexia$time <- ordered(anorexia$time, levels=c('Prior', 'Post'))
 
 ## Visualizing data
 
-A typical way to visualize the differences for a paired t-test is using a plot like this. Note that we will have to pivot the data to long format.
+A typical way to visualize the differences for a paired t-test is using a plot like this.
 
 ```{r}
 #| fig-align: center
