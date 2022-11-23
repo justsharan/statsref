@@ -2,14 +2,16 @@ project:
   type: book
 
 book:
-  title: "Statistics Reference"
+  title: "Statistics with R"
   author: "Sharan S."
   date: "10/13/2022"
   chapters:
     - index.qmd
-    - paired-t.qmd
-    - two-sample-t.qmd
-    - analysis-of-variance.qmd
+    - part: inferential-statistics.qmd
+      chapters:
+        - paired-t.qmd
+        - two-sample-t.qmd
+        - analysis-of-variance.qmd
   page-navigation: false
 
 bibliography: references.bib
