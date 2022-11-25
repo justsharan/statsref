@@ -6,7 +6,7 @@ Here is an example of how to conduct a two-sample t-test using a dataset on the 
 
 ```{r, include=FALSE}
 library(tidyverse)
-beaver <- read_csv('datasets/beaver.csv')
+beaver <- read_csv('../datasets/beaver.csv')
 ```
 
 ## Visualizing data

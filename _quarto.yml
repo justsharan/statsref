@@ -7,11 +7,14 @@ book:
   date: "10/13/2022"
   chapters:
     - index.qmd
-    - part: inferential-statistics.qmd
+    - part: inferential-statistics/index.qmd
       chapters:
-        - paired-t.qmd
-        - two-sample-t.qmd
-        - analysis-of-variance.qmd
+        - inferential-statistics/paired-t.qmd
+        - inferential-statistics/two-sample-t.qmd
+        - inferential-statistics/analysis-of-variance.qmd
+    - part: non-parametric/index.qmd
+      chapters:
+        - non-parametric/kruskal-wallis.qmd
   page-navigation: false
 
 format:

@@ -7,7 +7,7 @@ Here is an example of using ANOVA to test whether the mean flipper length is dif
 ```{r}
 #| include: FALSE
 library(tidyverse)
-palmerpenguins <- read_csv('datasets/palmerpenguins.csv') 
+palmerpenguins <- read_csv('../datasets/palmerpenguins.csv') 
 ```
 
 ## Visualizing data

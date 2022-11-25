@@ -7,7 +7,7 @@ We have a dataset with the weights of 17 girls before and after treatment for an
 ```{r}
 #| include: FALSE
 library(tidyverse)
-anorexia <- read_csv('datasets/anorexia.csv')
+anorexia <- read_csv('../datasets/anorexia.csv')
 ```
 
 Before we start, we can store the differences in each pair as another variable and tidy the data, converting to long format. I'm also storing the row numbers as a column so that we know which before row corresponds to which after row, and ordering them such that Prior shows up before Post (as opposed to alphabetical order).
