@@ -7,6 +7,9 @@ book:
   date: "10/13/2022"
   chapters:
     - index.qmd
+    - part: descriptive-statistics/index.qmd
+      chapters:
+        - descriptive-statistics/making-graphs.qmd
     - part: inferential-statistics/index.qmd
       chapters:
         - inferential-statistics/paired-t.qmd
@@ -14,6 +17,7 @@ book:
         - inferential-statistics/analysis-of-variance.qmd
     - part: non-parametric/index.qmd
       chapters:
+        - non-parametric/mann-whitney-u.qmd
         - non-parametric/kruskal-wallis.qmd
   page-navigation: false
 
