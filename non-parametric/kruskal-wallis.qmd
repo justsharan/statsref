@@ -1,0 +1,73 @@
+# Kruskal-Wallis test
+
+```{r}
+#| include: false
+library(tidyverse)
+library(knitr)
+```
+
+This is a non-parametric alternative to a one-way ANOVA test, so it makes no assumptions about the data's parameters (like the mean, sd, variance, etc). This should be used when you're comparing the medians of more than two independent groups, and the assumptions for ANOVA are not met.
+
+Here is an example of using the Kruskal-Wallis test to test whether the sepal length (cm) of 3 species of flowers from the `iris` dataset is different among the species. This is a built-in dataset in R and does not need to be loaded. It is commonly used for data science demonstrations.
+
+## Visualizing data
+
+We could visualize our data using a boxplot or violin plot (or both), the same as for an ANOVA test.
+
+```{r}
+#| fig-align: center
+ggplot(iris, aes(x = Species, y = Sepal.Length)) +
+  geom_violin() +
+  geom_boxplot(width = 0.1) +
+  geom_jitter(size = 1, shape = 1, width = 0.15) +
+  xlab('Species') +
+  ylab('Sepal Length (cm)')
+```
+
+We could also visualize the descriptive statistics for the dataset. `kable()` is used to format the output into a markdown table, and it is available in the `knitr` package.
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  summarize(
+    Count = length(Sepal.Length),
+    Min = min(Sepal.Length),
+    Max = max(Sepal.Length),
+    Mean = mean(Sepal.Length),
+    SD = sd(Sepal.Length),
+    SEM = SD/sqrt(Count),
+    Median = median(Sepal.Length),
+    IQR = IQR(Sepal.Length)
+  ) %>%
+  kable(digits = 3)
+```
+
+## Hypotheses
+
+* $H_0$: The distribution and median of sepal length is the same among the three iris species.
+* $H_A$: At least one of the species has a different median and distribution of sepal length than the others.
+
+## Checking assumptions
+
+The test assumes that the frequency distributions of measurements have the same shape among groups. We can check this using a histogram.
+
+```{r}
+#| fig-height: 3
+#| fig-align: center 
+iris %>%
+  ggplot(aes(x = Sepal.Length)) +
+  geom_histogram(bins = 10) +
+  facet_wrap(~ Species) +
+  xlab('Sepal Length (cm)') +
+  ylab('Frequency')
+```
+
+## Performing a Kruskal-Wallis test
+
+We can use the built-in `kruskal.test` method in R to perform this test.
+
+```{r}
+kruskal.test(Sepal.Length ~ Species, data = iris)
+```
+
+Since we have a really low P-value (P-value < 0.001), we can reject the null hypothesis. At least one species has a different median (and originates from a different distribution) than the rest.
