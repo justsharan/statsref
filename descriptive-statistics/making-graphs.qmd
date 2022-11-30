@@ -145,7 +145,6 @@ palmerpenguins %>%
 `ggplot` also allows you to change the visual aesthetic of your graph using themes. There are a few built-in themes that you could use:
 
 ```R
-#| message: false
 base.graph <- ggplot(palmerpenguins) +
   geom_point(aes(x = culmen_depth_mm, y = culmen_length_mm, color = species))
 
