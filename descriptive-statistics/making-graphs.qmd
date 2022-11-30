@@ -218,5 +218,6 @@ ggplot(palmerpenguins) +
 That's looking pretty good.
 
 This section of the site is inspired by these two sources:
+
 * [Data Visualization - R for Data Science](https://r4ds.had.co.nz/data-visualisation.html)
 * [Make Beautiful Graphs in R: 5 Quick Ways to Improve ggplot2 Graphs - YouTube](https://www.youtube.com/watch?v=qnw1xDnt_Ec)
