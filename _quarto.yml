@@ -10,6 +10,7 @@ book:
     - part: descriptive-statistics/index.qmd
       chapters:
         - descriptive-statistics/making-graphs.qmd
+        - descriptive-statistics/single-variable.qmd
     - part: inferential-statistics/index.qmd
       chapters:
         - inferential-statistics/paired-t.qmd

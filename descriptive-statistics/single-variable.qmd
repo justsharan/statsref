@@ -1,0 +1,89 @@
+# Presenting a single variable
+
+## Presenting a quantitative variable
+
+For this page, I'll be using white wine data from the [wine quality dataset](https://archive.ics.uci.edu/ml/datasets/Wine+Quality) from the UCI Machine Learning repository. It contains information related to red and white wine samples from northern Portugal, and the study aimed to model wine quality based on the chemical properties of the wines.
+
+```{r}
+#| include: false
+library(tidyverse)
+library(knitr)
+```
+
+```{r}
+#| message: false
+winequality.white <- read.csv('../datasets/winequality-white.csv')
+```
+
+### Exploring the dataset
+
+We don't always know what our data looks like. It is usually a good idea to explore it using `head()` or `View()`. Here, we can see the columns present in the winequality dataset.
+
+```r
+head(winequality.white)
+```
+
+```{r}
+#| echo: false
+kable(head(winequality.white))
+```
+
+### Histograms and boxplots
+
+There are plenty of ways to visualize a single quantitative variable, but the two most common methods are using a histogram and a boxplot.
+
+We can build a histogram using `ggplot2`, our plotting utility of choice. Let's use it to visualize the distribution of citric acid concentration in white wines.
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(winequality.white, aes(citric.acid)) +
+  geom_histogram() +
+  labs(
+    title = 'Citric Acid Levels in White Wine',
+    x = 'Citric Acid concentration (g/dm³)',
+    y = 'Frequency',
+    caption = 'Source: Cortez et al.'
+  )
+```
+
+It looks like our dataset is roughly positively skewed, and has a few outliers to the right.
+
+A boxplot, or a box-and-whisker plot, makes it easier to visualize outliers. We can draw them either vertically or horizontally by placing them on the $x$ or $y$-axis within our aesthetic mappings.
+
+```{r}
+#| message: false
+#| fig-align: center
+#| fig-height: 2
+ggplot(winequality.white, aes(x = citric.acid)) +
+  geom_boxplot() +
+  labs(
+    title = 'Citric Acid Levels in White Wine',
+    x = 'Citric Acid concentration (g/dm³)'
+  )
+```
+
+Although individual variables aren't typically presented in the form of a boxplot, it can be useful for looking at its distribution.
+
+### Describing a single variable
+
+A variable can be described well using two metrics:
+
+* A measure of central tendency (ex: mean, median)
+* A measure of variability (ex: standard deviance, variance, interquartile range)
+
+### Cumulative frequency distributions
+
+The median and quartiles are examples of percentiles/quantiles. A percentile is a measure of what proportion of the dataset is below that value. In other words, the nth percentile of a distribution describes how many values make up the bottom n% of your dataset.
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(winequality.white, aes(citric.acid)) +
+  stat_ecdf() +
+  labs(
+    title = 'Citric Acid Levels in White Wine',
+    x = 'Citric Acid concentration (g/dm³)',
+    y = 'Cumulative relative frequency'
+  )
+```
