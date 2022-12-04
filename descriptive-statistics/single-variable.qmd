@@ -64,7 +64,7 @@ Although individual variables aren't typically presented in the form of a boxplo
 
 ### Cumulative frequency distributions
 
-The median and quartiles are examples of percentiles/quantiles. A percentile is a measure of what percent of the dataset is below a value. In other words, the nth percentile of a distribution describes value below with n% of your dataset lies. We can visualize this using a cumulative frequency distribution.
+The median and quartiles are examples of percentiles/quantiles. A percentile is a measure of what percent of the dataset is below a value. In other words, the nth percentile of a distribution describes value below which n% of your dataset lies. We can visualize this using a cumulative frequency distribution.
 
 ```{r}
 #| message: false
@@ -78,11 +78,11 @@ ggplot(winequality.white, aes(citric.acid)) +
   )
 ```
 
-While a variable is rarely _presented_ using a CDF plot, it can be a useful tool to gain a better understanding of your data. [To be elaborated upon later]
+While a variable is rarely _presented_ using a CDF plot, it can be a useful tool to gain a better understanding of your data. [TODO: Explain how to interpret CDFs]
 
 ## Categorical variables
 
-For this demonstration, I'll be using the `tv-shows.csv` data, which contains information on the Top 100 TV shows around the world from The Movie Database. You can import it using the `read.csv()` method as demonstrated in previous pages.
+For this demonstration, I'll be using the `tv-shows.csv` data, which contains information on the top-rated TV shows around the world from The Movie Database. You can import it using the `read.csv()` method as demonstrated in previous pages.
 
 ### Exploring the dataset
 
@@ -96,11 +96,11 @@ head(tv.shows)
 kable(head(tv.shows))
 ```
 
-We could use this data to visualize the number of TV shows in the top 100 from each country.
+We could use this data to visualize the number of top-rated TV shows from each country.
 
 ### Relative frequency table
 
-We can count the number of TV shows by country and present the relative frequency for each country, or what proportion of shows in the top 100 are from that particular country. We'll also cap the data to only show countries with at least 10 shows in the top 100.
+We can count the number of TV shows by country and present the relative frequency for each country, or what proportion of shows in the dataset are from that particular country. We'll also cap the data to only show countries with at least 10 shows in the list.
 
 ```{r}
 tv.shows.table <- tv.shows %>%
@@ -128,9 +128,9 @@ ggplot(tv.shows.table, aes(x = reorder(country, n), y = n)) +
   geom_bar(stat = 'identity') +
   labs(
     title = 'Countries With the Most Hit TV Shows',
-    subtitle = 'Which countries have the most shows in the Top 100 shows list?',
+    subtitle = 'Which countries have the most top-rated shows?',
     x = 'Country',
-    y = 'Number of Films',
+    y = 'Number of TV shows',
     caption = 'Source: The Movie Database'
   ) +
   coord_flip() +
