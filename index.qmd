@@ -31,6 +31,7 @@ library(tidyverse)
 This website uses tons of different datasets, all of which are available at https://justsharan.xyz/stats/datasets/*. So for example, the `anorexia` data used for the paired t-test page can be loaded in as such:
 
 ```{r}
+#| message: false
 anorexia <- read_csv('https://justsharan.xyz/stats/datasets/anorexia.csv')
 head(anorexia) # just for demonstration purposes
 ```

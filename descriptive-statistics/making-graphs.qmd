@@ -2,20 +2,26 @@
 
 `ggplot2` is a powerful plotting utility which is part of the tidyverse collection of R packages, and it provides a really useful interface for building plots. It is automatically imported when you import the `tidyverse` package mentioned in the [preface](../index.qmd).
 
-I'll explain how to make basic plots with it using the `palmerpenguins` dataset, which provides information on various body measurements for 3 species of penguins from 3 different islands, grouped by sex. It is a useful dataset which is often used when teaching statistics and data science.
+I'll explain how to make basic plots with it using the `palmerpenguins.csv` data, which provides information on various body measurements for 3 species of penguins from 3 different islands, grouped by sex. It is a useful dataset which is often used when teaching statistics and data science.
 
 ## Importing and examining data
 
 First, we can load the package and import our dataset.
 ```{r}
+#| message: false
 library(tidyverse)
 palmerpenguins <- read.csv('https://justsharan.xyz/stats/datasets/palmerpenguins.csv')
 ```
 
 We can examine what the data looks like using the `head()` method, which returns the first few rows of the tibble. Optionally, you can also use `View(palmerpenguins)` to open the tibble in a new window, if you're using a tool like RStudio or VS Code.
 
-```{r}
+```r
 head(palmerpenguins)
+```
+```{r}
+#| echo: false
+library(knitr)
+kable(head(palmerpenguins))
 ```
 
 ## Basic plotting
