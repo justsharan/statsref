@@ -1,18 +1,16 @@
 # Presenting a single variable
 
-## Presenting a quantitative variable
+## Quantative variables
 
-For this page, I'll be using white wine data from the [wine quality dataset](https://archive.ics.uci.edu/ml/datasets/Wine+Quality) from the UCI Machine Learning repository. It contains information related to red and white wine samples from northern Portugal, and the study aimed to model wine quality based on the chemical properties of the wines.
+For this demonstration, I'll be using white wine data from the [wine quality dataset](https://archive.ics.uci.edu/ml/datasets/Wine+Quality) from the UCI Machine Learning repository, accessible at `winequality-white.csv`. It contains information related to red and white wine samples from northern Portugal, and the study aimed to model wine quality based on the chemical properties of the wines.
 
 ```{r}
 #| include: false
 library(tidyverse)
 library(knitr)
-```
-
-```{r}
-#| message: false
+library(ggthemes)
 winequality.white <- read.csv('../datasets/winequality-white.csv')
+tv.shows <- read.csv('../datasets/tv-shows.csv')
 ```
 
 ### Exploring the dataset
@@ -22,7 +20,6 @@ We don't always know what our data looks like. It is usually a good idea to expl
 ```r
 head(winequality.white)
 ```
-
 ```{r}
 #| echo: false
 kable(head(winequality.white))
@@ -65,16 +62,9 @@ ggplot(winequality.white, aes(x = citric.acid)) +
 
 Although individual variables aren't typically presented in the form of a boxplot, it can be useful for looking at its distribution.
 
-### Describing a single variable
-
-A variable can be described well using two metrics:
-
-* A measure of central tendency (ex: mean, median)
-* A measure of variability (ex: standard deviance, variance, interquartile range)
-
 ### Cumulative frequency distributions
 
-The median and quartiles are examples of percentiles/quantiles. A percentile is a measure of what proportion of the dataset is below that value. In other words, the nth percentile of a distribution describes how many values make up the bottom n% of your dataset.
+The median and quartiles are examples of percentiles/quantiles. A percentile is a measure of what percent of the dataset is below a value. In other words, the nth percentile of a distribution describes value below with n% of your dataset lies. We can visualize this using a cumulative frequency distribution.
 
 ```{r}
 #| message: false
@@ -86,4 +76,63 @@ ggplot(winequality.white, aes(citric.acid)) +
     x = 'Citric Acid concentration (g/dm³)',
     y = 'Cumulative relative frequency'
   )
+```
+
+While a variable is rarely _presented_ using a CDF plot, it can be a useful tool to gain a better understanding of your data. [To be elaborated upon later]
+
+## Categorical variables
+
+For this demonstration, I'll be using the `tv-shows.csv` data, which contains information on the Top 100 TV shows around the world from The Movie Database. You can import it using the `read.csv()` method as demonstrated in previous pages.
+
+### Exploring the dataset
+
+As usual, we can use `head()` or `View()` to explore the dataset and see what columns are available to us.
+
+```r
+head(tv.shows)
+```
+```{r}
+#| echo: false
+kable(head(tv.shows))
+```
+
+We could use this data to visualize the number of TV shows in the top 100 from each country.
+
+### Relative frequency table
+
+We can count the number of TV shows by country and present the relative frequency for each country, or what proportion of shows in the top 100 are from that particular country. We'll also cap the data to only show countries with at least 10 shows in the top 100.
+
+```{r}
+tv.shows.table <- tv.shows %>%
+  count(country, sort = TRUE) %>%
+  filter(n >= 10) %>%
+  mutate(relative_frequency = n / sum(n))
+```
+
+```r
+tv.shows.table
+```
+```{r}
+#| echo: false
+kable(tv.shows.table, digits = 3)
+```
+
+### Bar chart
+
+A bar chart is the preferred way to visualize univariate, categorical data such as the information above. Since we've already saved the relative frequency table to `tv.shows.table`, we'll be able to use this dataframe in conjunction with ggplot to create a bar chart.
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(tv.shows.table, aes(x = reorder(country, n), y = n)) +
+  geom_bar(stat = 'identity') +
+  labs(
+    title = 'Countries With the Most Hit TV Shows',
+    subtitle = 'Which countries have the most shows in the Top 100 shows list?',
+    x = 'Country',
+    y = 'Number of Films',
+    caption = 'Source: The Movie Database'
+  ) +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 1500), n.breaks = 7)
 ```
