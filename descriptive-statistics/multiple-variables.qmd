@@ -3,13 +3,12 @@
 #| include: false
 library(knitr)
 library(tidyverse)
+titanic <- read_csv('../datasets/titanic.csv')
 ```
 
 ## Two quantitative variables
 
-For this portion of the page, we'll be looking at the `mtcars` dataset, which has quantitative information on various cars. It is built into R and does not need to be imported. More information about the source of the data and the meaning of the variables can be found [at this page](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html).
-
-We can use `head()` or `View()` to explore the dataset and see what columns are in the data.
+For this portion of the page, we'll be looking at the `mtcars` dataset, which has quantitative information on various cars. It is built into R and does not need to be imported. More information about the source of the data and the meaning of the variables can be found [at this page](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html). We can use `head()` or `View()` to explore the dataset and see what columns are in the data.
 
 ```r
 head(mtcars)
@@ -34,7 +33,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
   )
 ```
 
-When describing a scatterplot, these are the main things to look for when evaluating a scatterplot:
+When describing a scatterplot, these are the main things to look for:
 
 1. **Direction**: Is the association positive or negative? Does the response variable increase as the explanatory variable increases (positive) or does it decrease (negative)?
 2. **Form**: Is the association linear or non-linear? Is there a different relationship at play?
@@ -79,17 +78,75 @@ Here's everything in the code, broken down:
 
 ## Two categorical variables
 
+For this section, we'll look at the `titanic.csv`, which contains information about all the passengers on the titanic. We can use `head()` or `View()` to explore the dataset and see what columns are in the data.
+
+```r
+head(titanic)
+```
+```{r}
+#| echo: false
+kable(head(titanic))
+```
+
+We're interested in looking at relationships between the sex (male/female) and their survival. We can convert the `Survived` column to a boolean type as such:
+
+```{r}
+titanic <- mutate(titanic,
+  Survived = ifelse(Survived == 1, 'Survived', 'Died'),
+  Sex = ifelse(Sex == 'male', 'Male', 'Female'))
+```
+
+This codeblock _iterates_ through each row of `titanic` and sets the `Survived` column to the value of `Survived == 1`. That expression checks if the variable is equal to 1, and returns `'Survived'` if it's equal and `'Died'` if it's not equal. It also checks if the `Sex == 'male'` and returns `'Male'` or `'Female'` depending on the result (this is used to return capitalized text rather than the existing lowercase ones).
+
 ### Contingency table
+
+The first and most straightforward way to visualize this data is by using a contingency table. R provides a built-in function to do this.
+
+```{r}
+titanic.table <- table(titanic$Survived, titanic$Sex) %>%
+  addmargins()
+kable(titanic.table)
+```
 
 ### Bar chart
 
+One way to graphically visualize such data is by using a grouped bar graph:
+
+```{r}
+#| message: false
+#| fig-align: center
+titanic %>%
+  count(Survived, Sex) %>%
+  ggplot(aes(x = Survived, y = n, fill = Sex)) +
+    geom_bar(stat = "identity", position = position_dodge()) +
+    labs(y = 'Number of Passengers')
+```
+
+In this code, we first group the titanic dataset by survival status and sex, and then pipe it to ggplot. Once ggplot has our data frame, we pass in aesthetic mappings to place the survival status on the $x$-axis, frequency on the $y$-axis, and fill it with the Sex variable (different colors based on gender).
+
+To the `geom_bar` layer, we specify a `position` parameter with a value of `position_dodge()`, which places each fill on its own line, creating a grouped bar graph (rather than a stacked bar graph). Finally, we change the $y$-axis label. 
+
 ### Mosaic plot
+
+An alternative way to present the same data is by using a mosaic plot. A mosaic plot displays the relative frequencies of all the pairs of categorical variables.
+
+```{r}
+#| message: false
+#| fig-align: center
+titanic %>%
+  count(Survived, Sex) %>%
+  group_by(Survived) %>%
+  mutate(rel_freq = n/sum(n)) %>%
+  ggplot(aes(x = Survived, y = rel_freq, fill = Sex)) +
+    geom_bar(stat = "identity") +
+    labs(y = 'Relative Frequency')
+```
+
+A mosaic plot is helpful in determining what proportion of individuals from each group (Survived or Died) were from each gender, unlike a bar chart, which solely shows the frequencies.
 
 ## A quantitative and a categorical variable
 
-For this section, we'll look at the `iris` dataset, which includes information on physical dimensions of three plant species. It is built into R and does not need to be imported.
-
-We can use `head()` or `View()` to explore the dataset and see what columns are in the data.
+For this section, we'll look at the `iris` dataset, which includes information on physical dimensions of three plant species. It is built into R and does not need to be imported. We can use `head()` or `View()` to explore the dataset and see what columns are in the data.
 
 ```r
 head(iris)
