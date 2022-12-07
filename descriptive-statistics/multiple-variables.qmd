@@ -118,7 +118,7 @@ One way to graphically visualize such data is by using a grouped bar graph:
 titanic %>%
   count(Survived, Sex) %>%
   ggplot(aes(x = Survived, y = n, fill = Sex)) +
-    geom_bar(stat = "identity", position = position_dodge()) +
+    geom_bar(stat = 'identity', position = position_dodge()) +
     labs(y = 'Number of Passengers')
 ```
 
@@ -138,7 +138,7 @@ titanic %>%
   group_by(Survived) %>%
   mutate(rel_freq = n/sum(n)) %>%
   ggplot(aes(x = Survived, y = rel_freq, fill = Sex)) +
-    geom_bar(stat = "identity") +
+    geom_bar(stat = 'identity') +
     labs(y = 'Relative Frequency')
 ```
 
