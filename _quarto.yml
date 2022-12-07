@@ -12,11 +12,11 @@ book:
         - descriptive-statistics/making-graphs.qmd
         - descriptive-statistics/single-variable.qmd
         - descriptive-statistics/multiple-variables.qmd
-    - part: inferential-statistics/index.qmd
+    - part: parametric/index.qmd
       chapters:
-        - inferential-statistics/paired-t.qmd
-        - inferential-statistics/two-sample-t.qmd
-        - inferential-statistics/analysis-of-variance.qmd
+        - parametric/paired-t.qmd
+        - parametric/two-sample-t.qmd
+        - parametric/analysis-of-variance.qmd
     - part: non-parametric/index.qmd
       chapters:
         - non-parametric/mann-whitney-u.qmd
