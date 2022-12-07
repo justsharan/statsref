@@ -1,0 +1,97 @@
+# Presenting multiple variables
+
+```{r}
+#| include: false
+library(knitr)
+library(tidyverse)
+```
+
+## Two quantitative variables
+
+For this portion of the page, we'll be looking at the `mtcars` dataset, which has quantitative information on various cars. It is built into R and does not need to be imported. More information about the source of the data and the meaning of the variables can be found [at this page](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html).
+
+### Exploring the dataset
+We can use `head()` or `View()` to explore the dataset and see what columns are in the data.
+
+```r
+head(mtcars)
+```
+```{r}
+#| echo: false
+kable(head(mtcars))
+```
+
+### Scatterplot
+
+The most common way to present associations between two quantitative variables is by using a scatterplot. It can be made using the `geom_point` layer in ggplot as such:
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(
+    title = 'Fuel Efficiency of Various Cars by Weight',
+    x = 'Weight (thousands of lbs)',
+    y = 'Fuel Efficiency (miles/U.S. gallon)'
+  )
+```
+
+When describing a scatterplot, these are the main things to look for when evaluating a scatterplot:
+
+1. **Direction**: Is the association positive or negative? Does the response variable increase as the explanatory variable increases (positive) or does it decrease (negative)?
+2. **Form**: Is the association linear or non-linear? Is there a different relationship at play?
+3. **Strength**: Is the association strong, moderate, or weak?
+
+### Correlation matrix
+
+While presenting relationships between two numerical variables, it's also common to include the correlation coefficient. This will be explained in detail in a later section as well. It can be conducted using the `cor.test` function in R:
+
+```{r}
+cor.test(mtcars$wt, mtcars$mpg)
+```
+
+The magnitude of the correlation coefficient can range from 0 to 1 and conveys the strength of the correlation. The closer the magnitude is to 1, the stronger the association between the two variables. The sign on the coefficient conveys the direction; a positive $r$ value indicates a positive association, while a negative $r$ value indicates a negative association.
+
+If we were interested in analyzing the relationships between all possible combinations of variables within a dataframe, we can do that in R and present the result in the form of a heatmap.
+
+```{r}
+#| message: false
+#| fig-align: center
+mtcars %>%
+  cor() %>%
+  data.frame() %>%
+  mutate(var1 = rownames(.)) %>%
+  gather(var2, corr, -var1) %>%
+  ggplot(aes(x = var1, y = var2, fill = corr)) +
+  geom_tile() +
+  scale_fill_gradient2(low = 'blue', high = 'red', mid = 'white', limit = c(-1, 1), midpoint = 0) +
+  labs(x = 'Variable 1', y = 'Variable 2', fill = 'Pearson\nCorrelation')
+```
+
+Here's everything in the code, broken down:
+
+* `cor()` computes the correlation between every pair of columns in the dataset. The result is a dataset with all the original columns in the column and row of the dataset, with each cell representing the correlation between that pair of data.
+* `data.frame()` creates a data frame out of this information.
+* `mutate()` is needed as the rows are in the index of the data frame, and we're making them a column in the dataset.
+* `gather()` converts the data from wide to long format. The original columns which were included as columns in our `cor()` dataframe are now converted to long format, with the other column names stored inside `var2`. This makes it easier for ggplot to plot it.
+* `ggplot()` takes in the melted dataframe and our aesthetic mappings. We want the $x$-axis to contain our first variable, the $y$-axis to contain our second variable, and we want the fills of each pair to correspond to the correlation between those two variables.
+* `geom_tile()` is the layer we need to produce the tile design we're looking for.
+* `scale_fill_gradient2()` creates a color gradient with a value for the low, middle, and high ends of the distribution.
+* `labs()` sets our axis and legend titles.
+
+## Two categorical variables
+
+### Contingency table
+
+### Bar chart
+
+### Mosaic plot
+
+## A quantitative and a categorical variable
+
+### Boxplot and violin plots
+
+### Stripchart
+
+### Histograms and kernel density plots
