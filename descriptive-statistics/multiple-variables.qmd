@@ -1,5 +1,4 @@
 # Presenting multiple variables
-
 ```{r}
 #| include: false
 library(knitr)
@@ -10,7 +9,6 @@ library(tidyverse)
 
 For this portion of the page, we'll be looking at the `mtcars` dataset, which has quantitative information on various cars. It is built into R and does not need to be imported. More information about the source of the data and the meaning of the variables can be found [at this page](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html).
 
-### Exploring the dataset
 We can use `head()` or `View()` to explore the dataset and see what columns are in the data.
 
 ```r
@@ -31,7 +29,6 @@ The most common way to present associations between two quantitative variables i
 ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point() +
   labs(
-    title = 'Fuel Efficiency of Various Cars by Weight',
     x = 'Weight (thousands of lbs)',
     y = 'Fuel Efficiency (miles/U.S. gallon)'
   )
@@ -90,8 +87,86 @@ Here's everything in the code, broken down:
 
 ## A quantitative and a categorical variable
 
-### Boxplot and violin plots
+For this section, we'll look at the `iris` dataset, which includes information on physical dimensions of three plant species. It is built into R and does not need to be imported.
 
-### Stripchart
+We can use `head()` or `View()` to explore the dataset and see what columns are in the data.
+
+```r
+head(iris)
+```
+```{r}
+#| echo: false
+kable(head(iris))
+```
+
+### Boxplots
+
+One way to visualize such data is by using multiple boxplots side-by-side. We can use this to look at the variation in petal length among the three species.
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(iris, aes(x = Species, y = Sepal.Length)) +
+  geom_boxplot() +
+  labs(x = 'Species', y = 'Petal Length (cm)')
+```
+
+### Stripcharts and violin plots
+
+There's another similar plot that we could construct with this data called a violin plot. While a boxplot is useful for understanding the general distribution of our data (comparing medians, quartiles, etc, among groups), a violin plot produces a more detailed way to visualize the distribution of our variable.
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(iris, aes(x = Species, y = Sepal.Length)) +
+  geom_violin() +
+  labs(x = 'Species', y = 'Petal Length (cm)')
+```
+
+While our violin plots have the same heights as the boxplots, the width of a violin plot at any given petal length value represents the frequency of that value in the distribution.
+
+Often times, a **stripchart** is laid on top of the violin plot as well.
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(iris, aes(x = Species, y = Sepal.Length)) +
+  geom_violin() +
+  geom_jitter(size = 2, shape = 1, width = 0.1) +
+  labs(x = 'Species', y = 'Petal Length (cm)')
+```
+
+`geom_jitter()` does the same task as `geom_point()`; it plots points. However, it adds a small amount of random variation to the location of each point, and this helps us better see overlapping data points. The positions are given a random shift each time the function is ran, so you may view a slightly different graph each time you render it.
+
+The `width` value that was passed in controls the width of the "frame" in which all the jittered points lie, with a maximum of 1. So a width value of 0.1 crams all the points into the middle 10% of the available space for the points. We use this option in the example above to fit all the points into the violin plot. Try removing the `width` parameter and see how the graph changes.
 
 ### Histograms and kernel density plots
+
+The final method to visualize this type of data is to use a histogram. But aren't histograms used to visualize one variable at a time? Yes, but we could either facet our data or use different colors to view the distribution of multiple variables at once. You can do the latter as such:
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(iris, aes(x = Petal.Length, fill = Species)) +
+  geom_histogram(alpha = 0.7, bins = 30) +
+  labs(x = 'Petal Length (cm)', y = 'Frequency', fill = 'Species')
+```
+
+Unlike the previous histogram example, I've added two parameters here, which are purely just used for aesthetic purposes:
+
+- `alpha` sets the opacity of the fill as a percent, with 1 being fully opaque.
+- `bins` sets the number of bins for the histogram.
+
+You can view the full list of customization options for each command in the documentation by running `?<command name>` in the R console. For the histogram method, you can run `?geom_histogram` and view a list of all the parameters that you can use.
+
+A different plot that is very similar to a histogram is called a kernel density plot. A kernel density plot also displays the distribution of a continunous variable, but presents it in the form of a smoothened curve rather than using bins. It can be made as follows:
+
+```{r}
+#| message: false
+#| fig-align: center
+ggplot(iris, aes(x = Petal.Length, fill = Species)) +
+  geom_density(alpha = 0.7) +
+  labs(x = 'Petal Length (cm)', y = 'Density', fill = 'Species')
+```
+
+A kernel density plot is also better at showing the parts of your data that overlap. In the histogram, we couldn't tell how tall the versicolor (green) bins got, as they were fully covered by the virginica (blue) bins. In the kernel density plot, however, it is easier to spot the overlap.
